@@ -1,7 +1,8 @@
 import { createBrowserRouter } from "react-router-dom";
 import { ROUTES_APP } from "@constants";
-import { ErrorPage, HomePage, PageOne, PageTwo } from "@pages";
+import { AuthPage, ErrorPage, HomePage, PageOne, PageTwo } from "@pages";
 
+import ProtectedLayout from "./protected";
 import PublicLayout from "./public";
 
 const router = createBrowserRouter([
@@ -22,6 +23,18 @@ const router = createBrowserRouter([
       {
         path: ROUTES_APP.PAGE_TWO,
         Component: PageTwo,
+      },
+    ],
+  },
+  {
+    id: "protected",
+    path: ROUTES_APP.PROTECTED,
+    Component: ProtectedLayout,
+    ErrorBoundary: ErrorPage,
+    children: [
+      {
+        index: true,
+        Component: AuthPage,
       },
     ],
   },
