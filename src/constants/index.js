@@ -1,9 +1,11 @@
 export const ROUTES_APP = {
   ROOT: "/",
-  PAGE_ONE: "page-one",
-  PAGE_TWO: "page-two",
-
-  PROTECTED: "/protected",
+  INTRO_PAGE: "/gioi-thieu",
+  PROJECT_PAGE: "/du-an-thi-cong",
+  TEMPLATES_PAGE: "/mau-thiet-ke",
+  SERVICES_PAGE: "/dich-vu",
+  MAINTAINING_PAGE: "/bao-tri",
+  CONTACT_PAGE: "/lien-he",
 };
 
 export const USER_API = {

@@ -1,4 +1,3 @@
-import { rootStore } from "@stores/root";
 import axios, { HttpStatusCode } from "axios";
 import queryString from "query-string";
 
@@ -13,7 +12,7 @@ const axiosClient = axios.create({
 });
 
 axiosClient.interceptors.request.use(config => {
-  const { accessToken } = rootStore.userStore;
+  const { accessToken } = localStorage.getItem("accessToken");
   if (accessToken) {
     config.headers["Authorization"] = `Bearer ${accessToken}`;
   }
@@ -30,7 +29,8 @@ axiosClient.interceptors.response.use(
     if (error.response) {
       // Server-side error (has HTTP status code)
       if (error.response.status === HttpStatusCode.Unauthorized) {
-        rootStore.userStore.logout();
+        localStorage.clear();
+        window.location.href = "/";
       }
       console.error("[SERVER-SIDE] Error:", error.response);
     } else if (error.request) {

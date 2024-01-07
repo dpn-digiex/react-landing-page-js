@@ -1,26 +1,17 @@
 import { useEffect, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
-import { BiMenuAltRight } from "react-icons/bi";
+import { AiOutlineMenu } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import { ROUTES_APP } from "@constants";
+import clsx from "clsx";
+
+import { PAGES_NAVIGATION } from "../../router";
 
 import styles from "./index.module.scss";
 
-const HEADER_NAVIGATION = [
-  {
-    id: "page-one",
-    path: ROUTES_APP.PAGE_ONE,
-    title: "PageOne",
-  },
-  {
-    id: "page-two",
-    path: ROUTES_APP.PAGE_TWO,
-    title: "PageTwo",
-  },
-];
-
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [transitionMenu, setTransitionMenu] = useState(false);
   const [size, setSize] = useState({
     width: undefined,
     height: undefined,
@@ -46,6 +37,10 @@ const Header = () => {
 
   const menuToggleHandler = () => {
     setMenuOpen(p => !p);
+    setTransitionMenu(true);
+    setTimeout(() => {
+      setTransitionMenu(false);
+    }, 300);
   };
 
   const ctaClickHandler = () => {
@@ -59,22 +54,26 @@ const Header = () => {
           Logo
         </Link>
         <nav
-          className={`${styles.header__content__nav} ${
-            menuOpen && size.width < 768 ? styles.isMenu : ""
-          }`}
+          className={clsx(styles.header__content__nav, {
+            [styles.isMenu]: menuOpen && size.width < 768,
+            [styles.transitionMenu]: transitionMenu,
+          })}
         >
           <ul>
-            {HEADER_NAVIGATION.map(item => (
-              <li key={item.id}>
-                <Link to={item.path}>{item.title}</Link>
-              </li>
-            ))}
+            {PAGES_NAVIGATION.map(
+              (item, idx) =>
+                idx !== 0 && (
+                  <li key={item.pageId}>
+                    <Link to={item.path}>{item.title}</Link>
+                  </li>
+                )
+            )}
           </ul>
-          <button onClick={ctaClickHandler}>CTA Page</button>
+          <button onClick={ctaClickHandler} />
         </nav>
         <div className={styles.header__content__toggle}>
           {!menuOpen ? (
-            <BiMenuAltRight onClick={menuToggleHandler} />
+            <AiOutlineMenu onClick={menuToggleHandler} />
           ) : (
             <AiOutlineClose onClick={menuToggleHandler} />
           )}
